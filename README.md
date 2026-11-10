@@ -89,15 +89,26 @@ cell highlighted.
 
 ## Proof of execution
 
-**Toolchain note:** authored on a Windows machine with no CUDA Toolkit
-installed, so the code could not be built or run there — the game logic
-was cross-checked with an equivalent Python prototype instead. To get a
-real run, on any machine with `nvcc` (e.g. the Coursera lab):
+`logs/game_20261110_150946.log` (X opens) and `logs/game_o_first.log`
+(O opens) are committed in this repo from a real run on an **NVIDIA L4**
+GPU in the Coursera lab — both show `Devices visible: 1`, the single-GPU
+fallback message, every turn's chosen cell and decision time, and both
+end in a draw, exactly matching the move sequences verified ahead of time
+(see "Toolchain note" below).
+
+**Toolchain note:** this repository was authored on a Windows machine
+with no CUDA Toolkit installed, so the code itself couldn't be built or
+run there — the game logic was cross-checked with an equivalent Python
+prototype first. The first real build in the lab still caught one
+`nvcc`-only bug that a Python prototype has no way to catch (a file-scope
+`constexpr` array being read from device code, fixed in `include/board.h`)
+before the logs above were captured. To reproduce on any machine with
+`nvcc`:
 
 ```bash
 make
 ./run.sh
-git add logs
+git add -f logs/*.log
 git commit -m "add proof of execution"
 ```
 
