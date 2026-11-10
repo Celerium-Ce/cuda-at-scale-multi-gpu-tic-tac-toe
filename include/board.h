@@ -16,18 +16,23 @@ constexpr int8_t kEmpty = 0;
 constexpr int8_t kPlayerX = 1;
 constexpr int8_t kPlayerO = 2;
 
-// The 8 index triples that count as a win: 3 rows, 3 columns, 2 diagonals.
-constexpr int kWinLines[8][3] = {
-    {0, 1, 2}, {3, 4, 5}, {6, 7, 8},  // rows
-    {0, 3, 6}, {1, 4, 7}, {2, 5, 8},  // columns
-    {0, 4, 8}, {2, 4, 6},             // diagonals
-};
-
 // Returns kPlayerX, kPlayerO, or kEmpty (no winner yet) for `board`. Shared
 // verbatim between host code (win/draw detection in the game loop) and
 // device code (terminal-state checks inside the search kernels), so both
 // sides agree on what counts as a win.
+//
+// The win lines are declared *inside* this function rather than as a
+// file-scope constant: nvcc compiles an inline __host__ __device__
+// function once for the host and once for the device, and a function-local
+// constexpr array gets a copy in each compiled version, whereas a
+// file-scope constant would only exist in host memory and be unreadable
+// from device code (a build-time error, not a runtime one).
 inline __host__ __device__ int8_t CheckWinner(const int8_t* board) {
+  constexpr int kWinLines[8][3] = {
+      {0, 1, 2}, {3, 4, 5}, {6, 7, 8},  // rows
+      {0, 3, 6}, {1, 4, 7}, {2, 5, 8},  // columns
+      {0, 4, 8}, {2, 4, 6},             // diagonals
+  };
   for (int line = 0; line < 8; ++line) {
     const int a = kWinLines[line][0];
     const int b = kWinLines[line][1];
