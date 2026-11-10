@@ -1,0 +1,6 @@
+bin/obj/
+bin/gpu_tictactoe
+bin/*.o
+*.o
+
+logs/*.log

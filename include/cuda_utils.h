@@ -1,0 +1,23 @@
+// Copyright 2026 Celerium-Ce
+#ifndef INCLUDE_CUDA_UTILS_H_
+#define INCLUDE_CUDA_UTILS_H_
+
+#include <cuda_runtime.h>
+
+#include <cstdio>
+#include <cstdlib>
+
+// Aborts with a message identifying the call site if a CUDA runtime call
+// fails. Used at every CUDA API call site so failures are caught close to
+// their source instead of surfacing as a later, unrelated crash.
+#define CUDA_CHECK(call)                                                 \
+  do {                                                                   \
+    cudaError_t cuda_check_status_ = (call);                             \
+    if (cuda_check_status_ != cudaSuccess) {                             \
+      fprintf(stderr, "CUDA error at %s:%d: %s\n", __FILE__, __LINE__,   \
+              cudaGetErrorString(cuda_check_status_));                   \
+      exit(EXIT_FAILURE);                                                \
+    }                                                                    \
+  } while (0)
+
+#endif  // INCLUDE_CUDA_UTILS_H_
