@@ -1,0 +1,51 @@
+CUDA Multi-GPU Tic-Tac-Toe
+Devices visible: 1
+  [0] NVIDIA L4
+Only one GPU is visible, so both players share device 0 (this still runs each player's own kernel per move; it just can't put them on separate physical GPUs here).
+
+Turn 1: O (heuristic GPU) plays cell 4 (109.452653 ms on device 0)
+. . .
+. O .
+. . .
+
+Turn 2: X (minimax GPU) plays cell 0 (27.759617 ms on device 0)
+X . .
+. O .
+. . .
+
+Turn 3: O (heuristic GPU) plays cell 2 (0.256067 ms on device 0)
+X . O
+. O .
+. . .
+
+Turn 4: X (minimax GPU) plays cell 6 (0.715401 ms on device 0)
+X . O
+. O .
+X . .
+
+Turn 5: O (heuristic GPU) plays cell 3 (0.249067 ms on device 0)
+X . O
+O O .
+X . .
+
+Turn 6: X (minimax GPU) plays cell 5 (0.270188 ms on device 0)
+X . O
+O O X
+X . .
+
+Turn 7: O (heuristic GPU) plays cell 8 (0.241407 ms on device 0)
+X . O
+O O X
+X . O
+
+Turn 8: X (minimax GPU) plays cell 1 (0.245197 ms on device 0)
+X X O
+O O X
+X . O
+
+Turn 9: O (heuristic GPU) plays cell 7 (0.241187 ms on device 0)
+X X O
+O O X
+X O O
+
+Draw: the board filled up with no winner.
